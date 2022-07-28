@@ -1,0 +1,7 @@
+spring:
+  r2dbc:
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    url: r2dbc:postgresql://${DB_HOST}:5432/${DB_NAME}
+
+

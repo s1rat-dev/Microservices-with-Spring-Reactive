@@ -1,0 +1,56 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: product-api
+  labels:
+    name: product-api
+spec:
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: product-api
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-api
+spec:
+  selector:
+    matchLabels:
+      app: product-api
+  replicas: 0
+  template:
+    metadata:
+      labels:
+        app: product-api
+    spec:
+      containers:
+        - name: product-api
+          image: gcr.io/static-factor-357608/product-api:latest
+          ports:
+            - containerPort: 8080
+          env:   # Setting Enviornmental Variables
+            - name: DB_HOST   # Setting Database host address from configMap
+              valueFrom:
+                configMapKeyRef:
+                  name: product-postgres-conf  # name of configMap
+                  key: host
+            - name: DB_NAME  # Setting Database name from configMap
+              valueFrom:
+                configMapKeyRef:
+                  name: product-postgres-conf
+                  key: name
+            - name: POSTGRES_USER  # Setting Database username from Secret
+              valueFrom:
+                secretKeyRef:
+                  name: product-postgres-credentials # Secret Name
+                  key: postgres_user
+            - name: POSTGRES_PASSWORD # Setting Database password from Secret
+              valueFrom:
+                secretKeyRef:
+                  name: product-postgres-credentials
+                  key: postgres_password
