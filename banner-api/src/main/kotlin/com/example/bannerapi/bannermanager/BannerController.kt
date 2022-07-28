@@ -1,7 +1,8 @@
 package com.example.bannerapi.bannermanager
 
+import com.example.bannerapi.bannermanager.dto.BannerRequest
+import com.example.bannerapi.bannermanager.dto.BannerResponse
 import kotlinx.coroutines.flow.Flow
-import org.springframework.data.repository.query.Param
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -15,15 +16,15 @@ import java.util.*
 class BannerController(val bannerService: BannerService) {
 
     @GetMapping()
-    suspend fun getAll() : Flow<Banner> = bannerService.getAll()
+    suspend fun getAll() : Flow<BannerResponse> = bannerService.getAll()
 
 
     @GetMapping("/{id}")
-    suspend fun findWithId(@PathVariable("id") bannerId : UUID) : Banner? = bannerService.getById(bannerId)
+    suspend fun findWithId(@PathVariable("id") bannerId : UUID) : BannerResponse? = bannerService.getById(bannerId)
 
 
     @PostMapping()
-    suspend fun addBanner(@RequestBody bannerRequest: CreateBannerRequest) {
+    suspend fun addBanner(@RequestBody bannerRequest: BannerRequest) {
         bannerService.addBanner(bannerRequest)
     }
 
