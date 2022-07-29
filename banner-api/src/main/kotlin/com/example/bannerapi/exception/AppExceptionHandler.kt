@@ -31,9 +31,9 @@ class AppExceptionHandler {
     }
 
 
-    @ExceptionHandler(IdNotExistException::class)
+    @ExceptionHandler(IdNotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    fun handleIdNotFoundException(ex: IdNotExistException) : ResponseEntity<Any?> =
+    fun handleIdNotFoundException(ex: IdNotFoundException) : ResponseEntity<Any?> =
             ResponseEntity(generateError(ex.message,HttpStatus.NOT_FOUND),HttpStatus.NOT_FOUND)
 
 

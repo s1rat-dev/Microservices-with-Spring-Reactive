@@ -5,11 +5,9 @@ import com.example.bannerapi.bannermanager.dto.BannerResponse
 import com.example.bannerapi.bannermanager.mapper.BannerToResponseMapper
 import com.example.bannerapi.bannermanager.mapper.RequestToBannerMapper
 import com.example.bannerapi.exception.BannerAlreadyExistException
-import com.example.bannerapi.exception.IdNotExistException
+import com.example.bannerapi.exception.IdNotFoundException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import org.springframework.http.HttpStatus
-import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -33,7 +31,7 @@ class BannerService(val bannerRepository: BannerRepository,
 
         val banner : Banner? = bannerRepository.findById(bannerId)
         if (banner === null)
-            throw IdNotExistException()
+            throw IdNotFoundException()
 
         return bannerToResponseMapper.convert(banner)
     }
