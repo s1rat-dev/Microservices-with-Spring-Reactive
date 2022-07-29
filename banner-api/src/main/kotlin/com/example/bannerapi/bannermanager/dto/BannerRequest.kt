@@ -1,7 +1,11 @@
 package com.example.bannerapi.bannermanager.dto
 
+import javax.validation.constraints.NotEmpty
+
 
 data class BannerRequest(
-  val bannerUrl : String?,
-  val advertiserName: String?,
+        @field:NotEmpty(message = "Banner url can not be empty.")
+        val bannerUrl : String?,
+        @field:NotEmpty(message = "Advertiser name can not be empty.")
+        val advertiserName: String?,
 )
