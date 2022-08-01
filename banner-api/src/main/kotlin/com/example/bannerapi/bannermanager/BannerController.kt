@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 import javax.validation.Valid
-import javax.validation.constraints.NotEmpty
-
 @RestController
 @RequestMapping("/banners")
 class BannerController(val bannerService: BannerService) {
@@ -28,9 +26,9 @@ class BannerController(val bannerService: BannerService) {
 
 
     @PostMapping()
-    suspend fun addBanner(@Valid @RequestBody bannerRequest: BannerRequest): ResponseEntity<Any?> {
-        bannerService.addBanner(bannerRequest)
-        return ResponseEntity.ok("Banner created successfully.")
-    }
+    suspend fun addBanner(@Valid @RequestBody bannerRequest: BannerRequest): ResponseEntity<String> =
+            bannerService.addBanner(bannerRequest)
+
+
 
 }

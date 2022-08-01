@@ -1,4 +1,4 @@
-package com.example.bannerapi.exception
+package com.example.productapi.exception
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -11,11 +11,13 @@ import org.springframework.web.bind.support.WebExchangeBindException
 @ControllerAdvice
 class AppExceptionHandler {
 
-    @ExceptionHandler(BannerAlreadyExistException::class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    fun handleBannerAlreadyExistException(ex : BannerAlreadyExistException) : ResponseEntity<Any?> =
-            ResponseEntity(generateError(ex.message,HttpStatus.BAD_REQUEST),HttpStatus.BAD_REQUEST)
 
+
+
+    @ExceptionHandler(ProductAlreadyExistException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handleCommentValidationException(ex: ProductAlreadyExistException) : ResponseEntity<Any?> =
+            ResponseEntity.badRequest().body(generateError(ex.message,HttpStatus.BAD_REQUEST))
 
     @ExceptionHandler(WebExchangeBindException::class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -30,9 +32,9 @@ class AppExceptionHandler {
     }
 
 
-    @ExceptionHandler(BannerNotFoundException::class)
+    @ExceptionHandler(ProductNotFoundException::class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    fun handleIdNotFoundException(ex: BannerNotFoundException) : ResponseEntity<Any?> =
+    fun handleCommentNotFoundException(ex: ProductNotFoundException) : ResponseEntity<Any?> =
             ResponseEntity(generateError(ex.message,HttpStatus.NOT_FOUND),HttpStatus.NOT_FOUND)
 
 
@@ -46,5 +48,3 @@ class AppExceptionHandler {
     }
 
 }
-
-
