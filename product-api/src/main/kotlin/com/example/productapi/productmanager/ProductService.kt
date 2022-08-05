@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
+import java.math.BigDecimal
 import java.util.UUID
 
 @Service
@@ -17,7 +18,7 @@ class ProductService(val productRepository: ProductRepository,
                      val productToResponseMapper: ProductToResponseMapper,
                      val requestToProductMapper: RequestToProductMapper) {
 
-    suspend fun getAll() : Flow<ProductResponse?> {
+    fun getAll() : Flow<ProductResponse?> {
         return productRepository.findAll().map {
             productToResponseMapper.convert(it)
         }
@@ -32,14 +33,20 @@ class ProductService(val productRepository: ProductRepository,
         return productToResponseMapper.convert(product)
     }
 
-    suspend fun addProduct(productRequest: ProductRequest) : ResponseEntity<String> {
+    suspend fun isProductAlreadyExist(productName: String,productPrice: BigDecimal) : Product? {
+        return productRepository.isProductAlreadyExist(productName,productPrice)
+    }
+    suspend fun addProduct(productRequest: ProductRequest) : ProductResponse {
 
-        val product : Product? = productRepository.checkProduct(productRequest.name!!,productRequest.price!!)
+        val product : Product? = isProductAlreadyExist(productRequest.name!!,productRequest.price!!)
         if (product != null)
             throw ProductAlreadyExistException()
 
-        productRepository.save(requestToProductMapper.convert(productRequest)!!)
-        return ResponseEntity.ok().body("Product created successfully.")
+        return productToResponseMapper
+                .convert(productRepository
+                        .save(requestToProductMapper
+                                .convert(productRequest)!!))!!
+
     }
 
 }

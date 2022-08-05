@@ -17,17 +17,19 @@ import javax.validation.Valid
 class BannerController(val bannerService: BannerService) {
 
     @GetMapping()
-    suspend fun getAll(): Flow<BannerResponse?> = bannerService.getAll()
+    suspend fun getAll(): Flow<BannerResponse> = bannerService.getAll()
 
 
     @GetMapping("/{id}")
-    suspend fun findWithId(@PathVariable("id") bannerId: UUID): BannerResponse? =
+    suspend fun findWithId(@PathVariable("id") bannerId: UUID): BannerResponse =
             bannerService.getById(bannerId)
 
 
     @PostMapping()
-    suspend fun addBanner(@Valid @RequestBody bannerRequest: BannerRequest): ResponseEntity<String> =
+    suspend fun addBanner(@Valid @RequestBody bannerRequest: BannerRequest): ResponseEntity<String> {
             bannerService.addBanner(bannerRequest)
+            return ResponseEntity.ok().body("Banner created successfully.")
+    }
 
 
 

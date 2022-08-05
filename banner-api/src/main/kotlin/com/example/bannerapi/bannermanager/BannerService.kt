@@ -18,9 +18,9 @@ class BannerService(val bannerRepository: BannerRepository,
                     val bannerToResponseMapper: BannerToResponseMapper)
 {
 
-    suspend fun getAll() : Flow<BannerResponse?> {
+    fun getAll() : Flow<BannerResponse> {
          return bannerRepository.findAll().map {
-             bannerToResponseMapper.convert(it)
+             bannerToResponseMapper.convert(it)!!
          }
     }
 
@@ -28,23 +28,25 @@ class BannerService(val bannerRepository: BannerRepository,
         return bannerRepository.isBannerAlreadyExists(bannerUrl,advertiserName)
     }
 
-    suspend fun getById(bannerId : UUID) : BannerResponse? {
+    suspend fun getById(bannerId : UUID) : BannerResponse {
 
         val banner : Banner? = bannerRepository.findById(bannerId)
         if (banner === null)
             throw BannerNotFoundException()
 
-        return bannerToResponseMapper.convert(banner)
+        return bannerToResponseMapper.convert(banner)!!
     }
 
 
-    suspend fun addBanner(bannerRequest : BannerRequest) : ResponseEntity<String> {
+    suspend fun addBanner(bannerRequest : BannerRequest) : BannerResponse {
 
         val targetBanner :Banner? = isBannerAlreadyExists(bannerRequest.bannerUrl!!,bannerRequest.advertiserName!!)
         if(targetBanner != null)
             throw BannerAlreadyExistException()
-        bannerRepository.save(requestToBannerMapper.convert(bannerRequest)!!)
-        return ResponseEntity.ok("Banner created successfully.")
+
+        return bannerToResponseMapper
+                .convert(bannerRepository
+                        .save(requestToBannerMapper.convert(bannerRequest)!!))!!
     }
 
 }

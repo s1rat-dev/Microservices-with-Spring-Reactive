@@ -8,6 +8,6 @@ import java.util.UUID
 interface ProductRepository : CoroutineCrudRepository<Product,UUID?> {
 
     @Query("SELECT * FROM products WHERE name= :name and price= :price")
-    suspend fun checkProduct(name: String, price: BigDecimal) : Product?
+    suspend fun isProductAlreadyExist(name: String, price: BigDecimal) : Product?
 
 }

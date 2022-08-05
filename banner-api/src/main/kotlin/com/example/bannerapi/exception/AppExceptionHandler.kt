@@ -26,7 +26,7 @@ class AppExceptionHandler {
             generateError(it.defaultMessage,HttpStatus.BAD_REQUEST)
         }.toMutableList()
 
-        return ResponseEntity.badRequest().body(mutableMapOf(Pair("errors", errors)))
+        return ResponseEntity.badRequest().body(mapOf("errors" to errors))
     }
 
 

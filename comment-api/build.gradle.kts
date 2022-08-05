@@ -35,6 +35,7 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
     implementation("org.mapstruct:mapstruct:1.4.2.Final")
     kapt("org.mapstruct:mapstruct-processor:1.4.2.Final")
+    testImplementation("io.mockk:mockk:1.12.5")
 }
 
 tasks.withType<KotlinCompile> {

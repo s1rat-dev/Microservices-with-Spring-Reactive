@@ -19,15 +19,18 @@ class ProductController(val productService: ProductService) {
 
 
     @GetMapping()
-    suspend fun getAll() : Flow<ProductResponse?> = productService.getAll()
+    fun getAll() : Flow<ProductResponse?> = productService.getAll()
 
     @GetMapping("{id}")
     suspend fun findWithId(@PathVariable("id") productId : UUID) : ProductResponse? =
             productService.getById(productId)
 
     @PostMapping()
-    suspend fun addProduct(@RequestBody @Valid productRequest: ProductRequest) : ResponseEntity<String> =
+    suspend fun addProduct(@RequestBody @Valid productRequest: ProductRequest) : ResponseEntity<String> {
             productService.addProduct(productRequest)
+            return ResponseEntity.ok().body("Product created successfully.")
+    }
+
 
 
 }

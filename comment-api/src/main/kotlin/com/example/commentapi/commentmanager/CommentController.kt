@@ -18,7 +18,7 @@ import javax.validation.Valid
 class CommentController(val commentService: CommentService) {
 
     @GetMapping()
-    suspend fun getAll() : Flow<CommentResponse?> = commentService.getAll()
+    fun getAll() : Flow<CommentResponse> = commentService.getAll()
 
 
 
@@ -29,9 +29,10 @@ class CommentController(val commentService: CommentService) {
 
 
     @PostMapping()
-    suspend fun addComment(@Valid @RequestBody commentRequest: CommentRequest) : ResponseEntity<String> =
-            commentService.addComment(commentRequest)
-
+    suspend fun addComment(@Valid @RequestBody commentRequest: CommentRequest) : ResponseEntity<String> {
+        commentService.addComment(commentRequest)
+        return ResponseEntity.ok().body("Comment created successfully.")
+    }
 
 
 }
