@@ -19,9 +19,9 @@ import java.util.UUID
 
 internal class BannerServiceTest {
 
-    private val bannerRepository        : BannerRepository          = mockk<BannerRepository>()
-    private val bannerToResponseMapper  : BannerToResponseMapper    = mockk<BannerToResponseMapper>()
-    private val requestToBannerMapper   : RequestToBannerMapper     = mockk<RequestToBannerMapper>()
+    private val bannerRepository        : BannerRepository          = mockk()
+    private val bannerToResponseMapper  : BannerToResponseMapper    = mockk()
+    private val requestToBannerMapper   : RequestToBannerMapper     = mockk()
     private val bannerService           : BannerService             = BannerService(
                                                                             bannerRepository,
                                                                             requestToBannerMapper,

@@ -6,10 +6,7 @@ import com.example.commentapi.commentmanager.mapper.CommentToResponseMapper
 import com.example.commentapi.commentmanager.mapper.RequestToCommentMapper
 import com.example.commentapi.exception.CommentAlreadyExistException
 import com.example.commentapi.exception.CommentNotFoundException
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.coVerifySequence
-import io.mockk.mockk
+import io.mockk.*
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.toList
@@ -18,19 +15,27 @@ import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.Test
 
 import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.BeforeEach
 import org.springframework.http.ResponseEntity
 import java.time.LocalDateTime
 import java.util.UUID
 
 internal class CommentServiceTest {
 
-    private val commentRepository       : CommentRepository         = mockk<CommentRepository>()
-    private val commentToResponseMapper : CommentToResponseMapper   = mockk<CommentToResponseMapper>()
-    private val requestToCommentMapper  : RequestToCommentMapper    = mockk<RequestToCommentMapper>()
-    private val commentService          : CommentService            = CommentService(
-                                                                            commentRepository,
-                                                                            requestToCommentMapper,
-                                                                            commentToResponseMapper)
+    private val commentRepository       : CommentRepository         = mockk()
+    private val commentToResponseMapper : CommentToResponseMapper   = mockk()
+    private val requestToCommentMapper  : RequestToCommentMapper    = mockk()
+    private val commentService          : CommentService            = CommentService(commentRepository,
+                                                                                requestToCommentMapper,
+                                                                                commentToResponseMapper)
+
+
+//    private lateinit var commentService : CommentService
+//    @BeforeEach
+//    fun init() {
+//        clearMocks(commentRepository,commentToResponseMapper,requestToCommentMapper)
+//        commentService = CommentService(commentRepository,requestToCommentMapper, commentToResponseMapper)
+//    }
 
     @Test
     fun `when CommentService#getAll is called when database has records`() = runBlocking {
@@ -103,7 +108,6 @@ internal class CommentServiceTest {
         coEvery {
             commentToResponseMapper.convert(comment)
         } returns expected
-
         //When
         val actual = commentService.getById(commentId)
 

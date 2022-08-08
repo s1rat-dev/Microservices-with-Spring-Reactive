@@ -23,9 +23,9 @@ import java.util.*
 
 internal class ProductServiceTest {
 
-    private val productRepository       : ProductRepository         = mockk<ProductRepository>()
-    private val productToResponseMapper : ProductToResponseMapper   = mockk<ProductToResponseMapper>()
-    private val requestToProductMapper  : RequestToProductMapper    = mockk<RequestToProductMapper>()
+    private val productRepository       : ProductRepository         = mockk()
+    private val productToResponseMapper : ProductToResponseMapper   = mockk()
+    private val requestToProductMapper  : RequestToProductMapper    = mockk()
     private val productService          : ProductService            = ProductService(
                                                                                 productRepository,
                                                                                 productToResponseMapper,

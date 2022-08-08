@@ -36,6 +36,13 @@ dependencies {
     implementation("org.mapstruct:mapstruct:1.4.2.Final")
     kapt("org.mapstruct:mapstruct-processor:1.4.2.Final")
     testImplementation("io.mockk:mockk:1.12.5")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
+    testImplementation("org.testcontainers:testcontainers:1.17.3")
+    testImplementation("org.testcontainers:junit-jupiter:1.17.3")
+    testImplementation("org.testcontainers:postgresql:1.17.3")
+    testImplementation("org.testcontainers:r2dbc:1.17.3")
+
+
 }
 
 tasks.withType<KotlinCompile> {
